@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staff Board · GateWay City Church</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .board{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:16px}
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+  .panel h3{font-size:22px;margin-bottom:4px}
+  .panel .sub{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .req{border-top:1px solid var(--line);padding:12px 0}
+  .req:first-of-type{border-top:none}
+  .req .who{font-weight:700;font-size:14px}
+  .req p{font-size:13.5px;color:var(--ink-soft);margin:4px 0 0}
+  .req .meta{font-size:11px;color:var(--muted);margin-top:4px}
+  @media (max-width:900px){.board{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<span class="demo-tag" id="demoTag" style="display:none">Demo Mode</span>
+<main class="app-wide">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:12px">
+      <img src="assets/gateway-logo.png" alt="" style="height:42px">
+      <div>
+        <h2 style="font-size:28px">Staff board</h2>
+        <p class="tiny">Live view of the house · refreshes every 10 seconds</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <a class="btn btn-ghost" href="sunday.html" target="_blank" rel="noopener">Projector screen</a>
+      <button class="btn btn-ghost" id="btnOut">Sign out</button>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat"><b id="stToday">0</b><span>Checked in today</span></div>
+    <div class="stat"><b id="stInside">0</b><span>Inside fence now</span></div>
+    <div class="stat"><b id="stPrayer">0</b><span>Open prayers</span></div>
+    <div class="stat"><b id="stMsg">0</b><span>Pastor messages</span></div>
+  </div>
+
+  <div class="board">
+    <div>
+      <div class="panel">
+        <h3>Arrivals and departures</h3>
+        <p class="sub">Geofence enter/exit plus QR and manual check-ins. Newest first.</p>
+        <div id="feedGeo"></div>
+      </div>
+      <div class="panel" style="margin-top:16px">
+        <h3>Volunteer signups</h3>
+        <p class="sub">Call them this week while it is warm.</p>
+        <div id="feedVol"></div>
+      </div>
+    </div>
+    <div>
+      <div class="panel">
+        <h3>Prayer requests</h3>
+        <p class="sub">Private requests are marked. Handle with care.</p>
+        <div id="feedPrayer"></div>
+      </div>
+      <div class="panel" style="margin-top:16px">
+        <h3>Pastor inbox</h3>
+        <p class="sub">Direct messages from congregants.</p>
+        <div id="feedMsg"></div>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="gcc-config.js"></script>
+<script src="gcc-data.js"></script>
+<script type="module">
+  import { gccAuthGuard, gccSignOut, gccSupabase } from './auth.js';
+  const C = window.GCC, D = window.GCCData;
+  const $ = (id) => document.getElementById(id);
+  const session = await gccAuthGuard();
+  if (session) {
+    if (C.DEMO_MODE) $('demoTag').style.display = 'block';
+    $('btnOut').onclick = gccSignOut;
+
+    const ago = (iso) => {
+      const s = Math.floor((Date.now() - new Date(iso)) / 1000);
+      if (s < 60) return s + 's ago';
+      if (s < 3600) return Math.floor(s / 60) + 'm ago';
+      if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+      return new Date(iso).toLocaleDateString();
+    };
+    const esc = (x) => String(x || '').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+
+    async function refresh() {
+      try {
+        const auth = (!C.DEMO_MODE && session.access_token)
+          ? { Authorization: 'Bearer ' + session.access_token } : {};
+        const f = await D.staffFeeds(auth);
+        const today = new Date().toISOString().slice(0, 10);
+
+        $('stToday').textContent = f.attendance.filter(a => a.service_date === today).length;
+        // inside-now = members whose latest geofence event today is an enter
+        const latest = {};
+        f.geofence.slice().reverse().forEach(g => {
+          if ((g.created_at || '').slice(0, 10) === today) latest[g.display_name || g.member_id] = g.event;
+        });
+        $('stInside').textContent = Object.values(latest).filter(e => e === 'enter').length;
+        $('stPrayer').textContent = f.prayers.filter(p => (p.status || 'new') === 'new').length;
+        $('stMsg').textContent = f.messages.filter(m => (m.status || 'new') === 'new').length;
+
+        $('feedGeo').innerHTML = f.geofence.slice(0, 25).map(g => `
+          <div class="feed-item">
+            <div><span class="who">${esc(g.display_name) || 'Guest'}</span>
+            <span class="what">${g.distance_m != null ? Math.round(g.distance_m) + 'm out' : ''}</span></div>
+            <div><span class="pill ${g.event}">${g.event}</span> <time>${ago(g.created_at)}</time></div>
+          </div>`).join('') || '<p class="tiny">Quiet so far.</p>';
+
+        $('feedVol').innerHTML = f.volunteers.slice(0, 15).map(v => `
+          <div class="req"><span class="who">${esc(v.display_name)}</span>
+          <p>${esc(v.role_title)}${v.contact ? ' · ' + esc(v.contact) : ''}</p>
+          <div class="meta">${ago(v.created_at)}</div></div>`).join('') || '<p class="tiny">No signups yet.</p>';
+
+        $('feedPrayer').innerHTML = f.prayers.slice(0, 15).map(p => `
+          <div class="req"><span class="who">${esc(p.display_name)}</span>
+          ${p.is_private ? '<span class="pill" style="margin-left:6px">private</span>' : ''}
+          <p>${esc(p.request)}</p>
+          <div class="meta">${p.contact ? esc(p.contact) + ' · ' : ''}${ago(p.created_at)}</div></div>`).join('') || '<p class="tiny">No open requests.</p>';
+
+        $('feedMsg').innerHTML = f.messages.slice(0, 15).map(m => `
+          <div class="req"><span class="who">${esc(m.display_name)} &rarr; ${esc(m.pastor)}</span>
+          <p>${esc(m.message)}</p>
+          <div class="meta">${esc(m.contact)} · ${ago(m.created_at)}</div></div>`).join('') || '<p class="tiny">Inbox clear.</p>';
+      } catch (e) { console.error('staff refresh', e); }
+    }
+    refresh();
+    setInterval(refresh, 10000);
+  }
+</script>
+</body>
+</html>

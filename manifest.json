@@ -1,0 +1,12 @@
+{
+  "name": "GateWay City Church",
+  "short_name": "GateWay",
+  "description": "Check in, events, volunteering, prayer, and a direct line to your pastors.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#F6F2EA",
+  "theme_color": "#F6F2EA",
+  "icons": [
+    { "src": "assets/gateway-logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
