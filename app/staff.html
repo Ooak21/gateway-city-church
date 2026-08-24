@@ -46,7 +46,7 @@
   import { gccAuthGuard, gccSignOut } from './auth.js';
   const C = window.GCC, D = window.GCCData;
   const $ = (id) => document.getElementById(id);
-  const preview = location.hostname === '127.0.0.1' && new URLSearchParams(location.search).get('preview') === '1';
+  const preview = new URLSearchParams(location.search).get('preview') === '1';
 
   const session = preview ? { preview: true } : await gccAuthGuard();
   if (!session) throw new Error('auth');
