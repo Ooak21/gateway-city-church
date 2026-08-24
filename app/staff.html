@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grace · GateWay City Church</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<span class="demo-tag" id="demoTag" style="display:none">Demo Mode</span>
+<div class="grace">
+  <aside class="rail-nav">
+    <div class="brand" style="padding:8px 8px 18px">
+      <img src="../assets/gateway-logo.png" alt="" style="height:28px;filter:brightness(0) invert(1)">
+      <div><b>Grace</b><span>GateWay staff</span></div>
+    </div>
+    <a class="navbtn on" href="staff.html">The house</a>
+    <a class="navbtn" href="sunday.html" target="_blank" rel="noopener">Sunday screen</a>
+    <a class="navbtn" href="index.html">Open House</a>
+    <a class="navbtn" href="../index.html">Public site</a>
+    <div class="rail-foot">Same records the phone writes. Prayer, inbox, arrivals, volunteer signups.</div>
+  </aside>
+  <section class="grace-main">
+    <header class="grace-head">
+      <div>
+        <div class="sec-kicker">Las Vegas · live</div>
+        <h1>The house</h1>
+      </div>
+      <button class="btn btn-ghost" id="btnOut">Sign out</button>
+    </header>
+    <div class="stats">
+      <div class="stat"><b id="stToday">0</b><span>Checked in</span></div>
+      <div class="stat"><b id="stInside">0</b><span>Inside now</span></div>
+      <div class="stat"><b id="stPrayer">0</b><span>Open prayer</span></div>
+      <div class="stat"><b id="stMsg">0</b><span>Pastor messages</span></div>
+    </div>
+    <div class="g-grid">
+      <div>
+        <div class="panel">
+          <h3>Arrivals and departures</h3>
+          <p class="sub">Geofence, QR, shortcut, and I'm here. Newest first.</p>
+          <div id="feedGeo"></div>
+        </div>
+        <div class="panel" style="margin-top:14px">
+          <h3>Volunteer signups</h3>
+          <p class="sub">Call them this week while it is warm.</p>
+          <div id="feedVol"></div>
+        </div>
+      </div>
+      <div>
+        <div class="panel">
+          <h3>Prayer requests</h3>
+          <p class="sub">Private requests are marked. Handle with care.</p>
+          <div id="feedPrayer"></div>
+        </div>
+        <div class="panel" style="margin-top:14px">
+          <h3>Pastor inbox</h3>
+          <p class="sub">Direct messages from congregants.</p>
+          <div id="feedMsg"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="gcc-config.js?v=5"></script>
+<script src="gcc-data.js?v=5"></script>
+<script type="module">
+  import { gccAuthGuard, gccSignOut, gccSupabase } from './auth.js';
+  const C = window.GCC, D = window.GCCData;
+  const $ = (id) => document.getElementById(id);
+  const session = await gccAuthGuard();
+  if (session) {
+    if (C.DEMO_MODE) $('demoTag').style.display = 'block';
+    $('btnOut').onclick = gccSignOut;
+
+    const ago = (iso) => {
+      const s = Math.floor((Date.now() - new Date(iso)) / 1000);
+      if (s < 60) return s + 's ago';
+      if (s < 3600) return Math.floor(s / 60) + 'm ago';
+      if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+      return new Date(iso).toLocaleDateString();
+    };
+    const esc = (x) => String(x || '').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+
+    async function refresh() {
+      try {
+        const auth = (!C.DEMO_MODE && session.access_token)
+          ? { Authorization: 'Bearer ' + session.access_token } : {};
+        const f = await D.staffFeeds(auth);
+        const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+
+        $('stToday').textContent = f.attendance.filter(a => a.service_date === today).length;
+        const latest = {};
+        f.geofence.slice().reverse().forEach(g => {
+          if ((g.created_at || '').slice(0, 10) === today) latest[g.display_name || g.member_id] = g.event;
+        });
+        $('stInside').textContent = Object.values(latest).filter(e => e === 'enter').length;
+        $('stPrayer').textContent = f.prayers.filter(p => (p.status || 'new') === 'new').length;
+        $('stMsg').textContent = f.messages.filter(m => (m.status || 'new') === 'new').length;
+
+        $('feedGeo').innerHTML = f.geofence.slice(0, 25).map(g => `
+          <div class="feed-item">
+            <div><span class="who">${esc(g.display_name) || 'Guest'}</span>
+            <span class="what">${g.distance_m != null ? Math.round(g.distance_m) + 'm out' : ''}</span></div>
+            <div><span class="pill ${g.event}">${g.event}</span> <time>${ago(g.created_at)}</time></div>
+          </div>`).join('') || '<p class="tiny">Quiet so far.</p>';
+
+        $('feedVol').innerHTML = f.volunteers.slice(0, 15).map(v => `
+          <div class="req"><span class="who">${esc(v.display_name)}</span>
+          <p>${esc(v.role_title)}${v.contact ? ' · ' + esc(v.contact) : ''}</p>
+          <div class="meta">${ago(v.created_at)}</div></div>`).join('') || '<p class="tiny">No signups yet.</p>';
+
+        $('feedPrayer').innerHTML = f.prayers.slice(0, 15).map(p => `
+          <div class="req"><span class="who">${esc(p.display_name)}</span>
+          ${p.is_private ? '<span class="pill" style="margin-left:6px">private</span>' : ''}
+          <p>${esc(p.request)}</p>
+          <div class="meta">${p.contact ? esc(p.contact) + ' · ' : ''}${ago(p.created_at)}</div></div>`).join('') || '<p class="tiny">No open requests.</p>';
+
+        $('feedMsg').innerHTML = f.messages.slice(0, 15).map(m => `
+          <div class="req"><span class="who">${esc(m.display_name)} → ${esc(m.pastor)}</span>
+          <p>${esc(m.message)}</p>
+          <div class="meta">${esc(m.contact)} · ${ago(m.created_at)}</div></div>`).join('') || '<p class="tiny">Inbox clear.</p>';
+      } catch (e) { console.error('staff refresh', e); }
+    }
+    refresh();
+    setInterval(refresh, 10000);
+  }
+</script>
+</body>
+</html>

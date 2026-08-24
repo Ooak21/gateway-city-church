@@ -2,379 +2,157 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>GateWay City Church</title>
-<meta name="theme-color" content="#F6F2EA">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="assets/gateway-logo.png">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GateWay City Church · Las Vegas</title>
+<meta name="theme-color" content="#07131C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<style>
-  .app-head{display:flex;align-items:center;gap:12px;padding-top:max(6px, env(safe-area-inset-top))}
-  .app-head img{height:44px;width:auto}
-  .app-head .h-name{font-family:var(--display);font-size:22px;letter-spacing:-.02em;line-height:1.05}
-  .app-head .h-tag{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700}
-  .svc-strip{display:flex;gap:8px;overflow-x:auto;margin-top:14px;padding-bottom:4px}
-  .svc-chip{flex:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:12px}
-  .svc-chip b{display:block;font-size:13px}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/gateway.css">
 </head>
-<body>
-<span class="demo-tag" id="demoTag" style="display:none">Demo Mode</span>
-<main class="app-shell">
+<body class="site-body">
+<nav class="site-nav">
+  <a class="brand" href="index.html">
+    <img src="assets/gateway-logo.png" alt="" style="height:36px">
+    <div><b>GateWay</b><span>Las Vegas</span></div>
+  </a>
+  <div class="links">
+    <a href="#new">New here</a>
+    <a href="#pastors">Pastors</a>
+    <a href="#ministries">Ministries</a>
+    <a href="grow-tracks.html">Grow Tracks</a>
+    <a href="#give">Give</a>
+    <a class="btn btn-copper" style="padding:8px 14px" href="app/">I'm here</a>
+  </div>
+</nav>
 
-  <header class="app-head">
-    <img src="assets/gateway-logo.png" alt="GateWay City Church">
+<section class="site-hero">
+  <img class="bg" src="assets/dusk-wide.jpg" alt="">
+  <div class="shade"></div>
+  <div class="inner">
+    <div class="kicker">GateWay City Church · Las Vegas</div>
+    <h1>Welcome home.</h1>
+    <p>A church for all people, with a heart to see lives changed by Jesus. Sundays at 10:00 AM English and 1:00 PM Español, right here in the valley.</p>
+    <div class="row">
+      <a class="btn btn-copper" href="app/">I'm here today</a>
+      <a class="btn btn-white" href="#new">New to GateWay</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap-site" id="times">
+  <div class="sec-kicker">Las Vegas campus</div>
+  <h2 class="sec-h">When we gather.</h2>
+  <p class="sec-lede">3630 N Rancho Dr #112, Las Vegas, NV 89130 · (702) 881-5623</p>
+  <div class="times">
+    <div class="time-card"><b>Sunday · 10:00 AM</b><span>English Service</span></div>
+    <div class="time-card"><b>Sunday · 1:00 PM</b><span>Servicio en Español</span></div>
+    <div class="time-card"><b>Wednesday · 7:00 PM</b><span>Breakout Life Group</span></div>
+  </div>
+</section>
+
+<section class="wrap-site" id="new">
+  <div class="sec-kicker">I'm new here</div>
+  <h2 class="sec-h">Come as you are.</h2>
+  <p class="sec-lede">Whether you are new to Jesus or new to our church, we can't wait to meet you. No dress code. No pretending. The best next step is Grow Tracks and Wednesday night Life Group.</p>
+  <div class="times" style="grid-template-columns:repeat(3,1fr)">
+    <div class="time-card"><b>1. Show up</b><span>Sunday 10 AM or 1 PM. Kids ministry during morning services.</span></div>
+    <div class="time-card"><b>2. Grow Tracks</b><span>Four sessions on connection, freedom, SHAPE, and the Holy Spirit.</span></div>
+    <div class="time-card"><b>3. Life Group</b><span>Wednesdays at 7:00 PM. Connection, community, growth.</span></div>
+  </div>
+  <div class="row" style="display:flex;gap:10px;margin-top:22px;flex-wrap:wrap">
+    <a class="btn btn-ink" href="grow-tracks.html">Take Grow Tracks</a>
+    <a class="btn btn-ghost" href="app/">Open the House app</a>
+  </div>
+</section>
+
+<section class="wrap-site" id="pastors">
+  <div class="sec-kicker">Campus pastors</div>
+  <h2 class="sec-h">Raise up champions.</h2>
+  <article class="pastor-row">
+    <img src="https://images.squarespace-cdn.com/content/v1/5c898d8c65019f5841c0cb70/73c6d985-a4d3-442a-9563-efee56bbe72a/P.+Danny+%26+Margaret+Hand.jpg" alt="Pastor Danny and Margaret Hand">
     <div>
-      <div class="h-name">GateWay City Church</div>
-      <div class="h-tag">Inspiring Transformed Lives</div>
+      <div class="sec-kicker">Lead pastors</div>
+      <h3 style="font-size:32px;margin:8px 0">Pastor Danny and Margaret Hand</h3>
+      <p class="sec-lede">Pastor Danny and Margaret Hand have been pastoring in Las Vegas for 23 years. They believe Christians are to be the best of the best, free from addictions and all forms of bondage. Danny is a coach at heart who wants to pull God's potential out of everybody who wants to be discipled.</p>
+      <p style="margin-top:12px;font-family:var(--display);font-size:22px">Our mission is simply to Raise Up Champions for Christ.</p>
     </div>
-  </header>
-
-  <div class="banner" id="geoBanner"><span class="dot"></span><span id="geoBannerText">Checking if you are on campus...</span></div>
-
-  <!-- HOME -->
-  <section class="view" id="view-home">
-    <div class="svc-strip" id="svcStrip"></div>
-    <div class="tile-grid">
-      <a class="tile" href="#checkin"><span class="t-ico">📍</span><span class="t-name">Check In</span><span class="t-sub">Let us know you are here this service</span></a>
-      <a class="tile" href="#events"><span class="t-ico">🗓️</span><span class="t-name">Events</span><span class="t-sub">Calendar of what is coming up</span></a>
-      <a class="tile" href="#volunteer"><span class="t-ico">🤝</span><span class="t-name">Volunteer</span><span class="t-sub">Serve on a team</span></a>
-      <a class="tile" href="#prayer"><span class="t-ico">🙏</span><span class="t-name">Prayer</span><span class="t-sub">Send a prayer request</span></a>
-      <a class="tile" href="#pastor"><span class="t-ico">✉️</span><span class="t-name">Reach a Pastor</span><span class="t-sub">Message Pastor Danny, Paul, or Fred</span></a>
-      <a class="tile" id="giveTile" href="#" target="_blank" rel="noopener"><span class="t-ico">🕊️</span><span class="t-name">Give</span><span class="t-sub">Tithes and offerings</span></a>
+  </article>
+  <article class="pastor-row flip">
+    <img src="assets/pastor-paul.jpg" alt="Pastor Paul">
+    <div>
+      <div class="sec-kicker">Pastoral team</div>
+      <h3 style="font-size:32px;margin:8px 0">Pastor Paul</h3>
+      <p class="sec-lede">Pastor Paul serves on the GateWay Las Vegas pastoral team, helping care for people and advance the mission of the church. He is committed to raising up believers who love God, love people, and walk in freedom.</p>
     </div>
-    <p class="tiny" style="margin-top:18px;text-align:center">3630 N Rancho Dr #112, Las Vegas, NV 89130 · (702) 881-5623<br>
-    Add this page to your home screen for one-tap Sundays.</p>
-  </section>
-
-  <!-- CONNECT CARD (first run) -->
-  <section class="view" id="view-connect">
-    <div class="mark" style="width:72px;height:72px;margin:18px auto;border-radius:50%;display:grid;place-items:center;background:var(--gold-wash);color:var(--gold);font-size:32px;font-family:var(--display)">✝</div>
-    <h2 style="text-align:center">Welcome. Tell us who you are.</h2>
-    <p class="lede" style="text-align:center;margin:8px auto 0;font-size:15px">Twenty seconds, once. After this, everything is one tap.</p>
-    <div class="field"><label>First name</label><input id="cFirst" autocomplete="given-name"></div>
-    <div class="field"><label>Last name</label><input id="cLast" autocomplete="family-name"></div>
-    <div class="field"><label>Phone (optional)</label><input id="cPhone" type="tel" autocomplete="tel" placeholder="(702) 555-0123"></div>
-    <div class="field"><label>Email (optional)</label><input id="cEmail" type="email" autocomplete="email"></div>
-    <label class="opt" style="display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff;margin:16px 0">
-      <input type="checkbox" id="cSms" style="margin-top:4px">
-      <span class="tiny">Text me service reminders and a thank-you after service. We will never track this phone around the city, and you can opt out any time.</span>
-    </label>
-    <button class="btn btn-ink" style="width:100%" id="cSave">Save and continue</button>
-    <button class="btn btn-ghost" style="width:100%;margin-top:10px" id="cSkip">Just browsing</button>
-  </section>
-
-  <!-- CHECK IN -->
-  <section class="view" id="view-checkin">
-    <div class="back-row"><button class="back-btn" data-back>&larr; Home</button></div>
-    <div class="eyebrow">Las Vegas campus</div>
-    <h2>Are you <em style="font-style:italic;color:var(--gold)">here</em> today?</h2>
-    <p class="muted" style="font-size:14px;margin-top:8px" id="checkinGeoLine">We will confirm your location when you tap.</p>
-    <button class="btn btn-gold" style="width:100%;margin-top:20px;font-size:16px;padding:16px" id="btnHere">I'm here</button>
-    <div class="banner checked" id="checkedBanner" style="display:none"><span class="dot"></span><span id="checkedText"></span></div>
-    <div class="card" style="margin-top:18px" id="autoWelcomeCard">
-      <div class="kicker">Auto-welcome</div>
-      <p class="tiny" style="margin:4px 0 10px">Set this up once and your phone greets you all by itself every time you arrive, and says goodbye when you leave. Nothing to open, nothing to scan, ever again. Works with what is already on your iPhone.</p>
-      <div id="awBody"></div>
+  </article>
+  <article class="pastor-row">
+    <img src="assets/pastor-fred.jpg" alt="Pastor Fred Corona">
+    <div>
+      <div class="sec-kicker">Pastoral team</div>
+      <h3 style="font-size:32px;margin:8px 0">Pastor Fred Corona</h3>
+      <p class="sec-lede">Pastor Fred Corona serves alongside the Hand family, helping lead and care for the GateWay Las Vegas family. He has a heart for people, for the local church, and for seeing lives transformed by Jesus right here in our city.</p>
     </div>
-    <div class="card" style="margin-top:18px">
-      <div class="kicker">Sunday mode</div>
-      <p class="tiny" style="margin:4px 0 10px">Keep the app open during service and we log when you arrive and leave the campus fence, so the thank-you goes out automatically. GPS only runs while this page is open. Nothing follows you home.</p>
-      <button class="btn btn-ghost" style="width:100%" id="btnWatch">Start Sunday mode</button>
-      <p class="tiny" id="watchStatus" style="margin-top:8px"></p>
+  </article>
+  <p class="sec-lede" style="margin-top:8px">GateWay Vegas is one of seven GateWay City Church campuses across California, Arizona, and Nevada, part of a family led by Pastors David and Kathy Cannistraci since 1966.</p>
+</section>
+
+<section class="wrap-site" id="ministries">
+  <div class="sec-kicker">Get connected</div>
+  <h2 class="sec-h">Find your next step.</h2>
+  <div class="min-grid">
+    <article class="min-card">
+      <div class="tag">Wednesdays · 7:00 PM</div>
+      <h3>Breakout Life Group</h3>
+      <p>A place to belong. Connection, shared struggles, and doing life together as we grow in faith and find freedom.</p>
+    </article>
+    <article class="min-card">
+      <div class="tag">2nd and 4th Sunday · 10:45 AM</div>
+      <h3>Teen Break Out</h3>
+      <p>Jr. High and High School. A fun, engaging hour every 2nd and 4th Sunday, 10:45 to 11:45 AM.</p>
+    </article>
+    <article class="min-card">
+      <div class="tag">Every Sunday · morning</div>
+      <h3>Gateway Kids</h3>
+      <p>Up through 5th grade during morning services. Bible in a fun, safe, age-right room so parents can be in the house.</p>
+    </article>
+  </div>
+  <p class="sec-lede" style="margin-top:22px">Want to serve? Open the House app and tap Serve. Welcome team, kids, worship, media, prayer, safety, ushers. We will get you connected.</p>
+  <a class="btn btn-ghost" style="margin-top:14px" href="app/#volunteer">Serve on a team</a>
+</section>
+
+<section class="wrap-site" id="watch">
+  <div class="sec-kicker">Watch</div>
+  <h2 class="sec-h">Can't make it in person?</h2>
+  <p class="sec-lede">Join live or catch recent messages anytime.</p>
+  <div class="row" style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+    <a class="btn btn-ink" href="https://www.youtube.com/@GatewayCityChurchSJ" target="_blank" rel="noopener">Watch live</a>
+    <a class="btn btn-ghost" href="https://www.youtube.com/@GatewayCityChurchSJ/videos" target="_blank" rel="noopener">Recent sermons</a>
+  </div>
+</section>
+
+<section class="wrap-site" id="give">
+  <div class="give-box">
+    <div>
+      <div class="sec-kicker" style="color:var(--copper-soft)">Giving</div>
+      <h2>Help us reach Las Vegas.</h2>
+      <p>Give in person on Sunday, online, or by texting GIVE to 855-783-4456.</p>
     </div>
-  </section>
+    <div>
+      <ol>
+        <li>Open Messages</li>
+        <li>Send to <strong>855-783-4456</strong></li>
+        <li>Type <strong>GIVE</strong></li>
+        <li>Tap the link and finish</li>
+      </ol>
+      <a class="btn btn-copper" style="margin-top:16px" href="https://give.tithe.ly/?formId=8d5c2d54-cee2-4c1d-9411-857b559a804a" target="_blank" rel="noopener">Give online</a>
+    </div>
+  </div>
+</section>
 
-  <!-- EVENTS -->
-  <section class="view" id="view-events">
-    <div class="back-row"><button class="back-btn" data-back>&larr; Home</button></div>
-    <h2>Upcoming at GateWay</h2>
-    <div id="eventList"></div>
-  </section>
-
-  <!-- VOLUNTEER -->
-  <section class="view" id="view-volunteer">
-    <div class="back-row"><button class="back-btn" data-back>&larr; Home</button></div>
-    <h2>Serve on a team</h2>
-    <p class="muted" style="font-size:14px;margin-top:6px">Pick a team and we will get you connected.</p>
-    <div id="roleList"></div>
-  </section>
-
-  <!-- PRAYER -->
-  <section class="view" id="view-prayer">
-    <div class="back-row"><button class="back-btn" data-back>&larr; Home</button></div>
-    <h2>How can we pray for you?</h2>
-    <div id="crisisBox"></div>
-    <div class="field"><label>Your request</label><textarea id="pReq" placeholder="Share what is on your heart..."></textarea></div>
-    <div class="field"><label>How should we reach you? (optional)</label><input id="pContact" placeholder="Phone or email"></div>
-    <label class="opt" style="display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:14px;background:#fff;margin:16px 0">
-      <input type="checkbox" id="pPrivate" style="margin-top:4px">
-      <span class="tiny">Keep this between me and the pastors only.</span>
-    </label>
-    <button class="btn btn-ink" style="width:100%" id="pSend">Send prayer request</button>
-  </section>
-
-  <!-- PASTOR -->
-  <section class="view" id="view-pastor">
-    <div class="back-row"><button class="back-btn" data-back>&larr; Home</button></div>
-    <h2>Reach a pastor</h2>
-    <div class="field"><label>Who would you like to reach?</label><select id="mPastor"></select></div>
-    <div class="field"><label>Your message</label><textarea id="mMsg"></textarea></div>
-    <div class="field"><label>How should we reach you back?</label><input id="mContact" placeholder="Phone or email"></div>
-    <button class="btn btn-ink" style="width:100%" id="mSend">Send message</button>
-  </section>
-
-</main>
-<div class="toast" id="toast"></div>
-
-<script src="gcc-config.js?v=4"></script>
-<script src="geofence.js?v=4"></script>
-<script src="gcc-data.js?v=4"></script>
-<script>
-(function () {
-  const C = window.GCC, D = window.GCCData, Geo = window.GCCGeo;
-  const $ = (id) => document.getElementById(id);
-  const qs = new URLSearchParams(location.search);
-  const fromQr = qs.get('src') === 'qr';
-  let geoState = null; // last one-shot geofence result
-
-  if (C.DEMO_MODE) $('demoTag').style.display = 'block';
-  $('giveTile').href = C.GIVE_URL;
-
-  // Service chips
-  $('svcStrip').innerHTML = C.SERVICES.map(s =>
-    `<div class="svc-chip"><b>${s.day} ${s.time}</b>${s.label}</div>`).join('');
-
-  // Pastor select
-  $('mPastor').innerHTML = C.PASTORS.map(p =>
-    `<option value="${p.id}">${p.name} · ${p.role}</option>`).join('');
-
-  // ---- routing ----
-  const views = ['home', 'connect', 'checkin', 'events', 'volunteer', 'prayer', 'pastor'];
-  function show(v) {
-    views.forEach(x => $('view-' + x).classList.toggle('active', x === v));
-    window.scrollTo(0, 0);
-  }
-  function route() {
-    const h = location.hash.replace('#', '') || 'home';
-    if (!D.getMe() && h !== 'connect') { show('connect'); return; }
-    show(views.includes(h) ? h : 'home');
-    if (h === 'events') renderEvents();
-    if (h === 'volunteer') renderRoles();
-  }
-  window.addEventListener('hashchange', route);
-  document.querySelectorAll('[data-back]').forEach(b => b.onclick = () => location.hash = '');
-
-  function toast(msg) {
-    const t = $('toast'); t.textContent = msg; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2600);
-  }
-
-  // ---- connect card ----
-  $('cSave').onclick = async () => {
-    const first = $('cFirst').value.trim();
-    if (!first) { toast('First name helps us say hello.'); return; }
-    const me = {
-      first_name: first, last_name: $('cLast').value.trim(),
-      phone: $('cPhone').value.trim(), email: $('cEmail').value.trim(),
-      sms_opt_in: $('cSms').checked, source: fromQr ? 'qr' : 'app'
-    };
-    try {
-      const rec = await D.saveMember(me);
-      D.setMe({ id: rec.id, geo_token: rec.geo_token, name: (me.first_name + ' ' + me.last_name).trim(), ...me });
-      toast('Welcome, ' + first + '.');
-      location.hash = 'checkin';
-      route();
-    } catch (e) { toast('Could not save. Try again.'); console.error(e); }
-  };
-  $('cSkip').onclick = () => {
-    D.setMe({ id: null, name: 'Guest', guest: true });
-    location.hash = ''; route();
-  };
-
-  // ---- geofence banner (one-shot on load) ----
-  async function refreshGeo() {
-    const b = $('geoBanner'), t = $('geoBannerText');
-    geoState = await Geo.checkOnce(C.CAMPUS);
-    if (!geoState.supported || !geoState.ok) {
-      t.textContent = fromQr ? 'Scanned at the sanctuary. Welcome in.' : 'Location off. The QR scan still counts as being here.';
-      if (fromQr) b.classList.add('oncampus');
-      return;
-    }
-    if (geoState.inside) {
-      b.classList.add('oncampus');
-      t.textContent = 'You are on campus. ' + geoState.distance + 'm from the sanctuary center.';
-      $('checkinGeoLine').textContent = 'Location confirmed: inside the campus fence (' + geoState.distance + 'm).';
-    } else {
-      t.textContent = 'You are ' + (geoState.distance >= 1000 ? (geoState.distance / 1000).toFixed(1) + ' km' : geoState.distance + 'm') + ' from campus.';
-      $('checkinGeoLine').textContent = 'You look ' + geoState.distance + 'm from campus. You can still check in if you are here and GPS is drifting.';
-    }
-  }
-
-  // ---- check in ----
-  $('btnHere').onclick = async () => {
-    const me = D.getMe() || { id: null, name: 'Guest' };
-    const method = (geoState && geoState.ok && geoState.inside) ? 'geofence' : (fromQr ? 'qr' : 'manual');
-    try {
-      await D.checkIn({ member_id: me.id, name: me.name, method,
-        distance: geoState && geoState.distance, accuracy: geoState && geoState.accuracy });
-      $('checkedBanner').style.display = 'flex';
-      $('checkedText').textContent = 'Checked in. It is good to have you' + (me.name && me.name !== 'Guest' ? ', ' + me.name.split(' ')[0] : '') + '.';
-      $('btnHere').disabled = true; $('btnHere').textContent = 'You are checked in';
-    } catch (e) { toast('Check-in failed. Try again.'); console.error(e); }
-  };
-
-  // ---- Auto-welcome setup (Apple Shortcuts, Door 1) ----
-  function joinSmsHref(me) {
-    // sms: link with prefilled body; the ?& form works on both iOS and Android
-    const body = encodeURIComponent(C.SMS_JOIN_KEYWORD + ' ' + me.geo_token);
-    return 'sms:' + C.SMS_LINE + '?&body=' + body;
-  }
-  function renderAutoWelcome() {
-    const me = D.getMe();
-    const body = $('awBody');
-    if (!me || me.guest || !me.geo_token) {
-      body.innerHTML = '<p class="tiny">Fill the connect card first so we know who to welcome.</p>' +
-        '<a class="btn btn-ghost" style="width:100%;margin-top:8px" href="#connect">Open connect card</a>';
-      return;
-    }
-    const welcomeLink = C.PING_URL + '?t=' + me.geo_token + '&e=enter';
-    const goodbyeLink = C.PING_URL + '?t=' + me.geo_token + '&e=exit';
-    body.innerHTML = `
-      <a class="btn btn-ink" style="width:100%" href="${joinSmsHref(me)}">1 &middot; Text us to turn on messages</a>
-      <p class="tiny" style="margin-top:6px;margin-bottom:14px">Opens a ready-to-send text. Tap Send and you're connected.</p>
-
-      <button class="btn btn-ghost" style="width:100%" id="cpWelcome">2 &middot; Copy your welcome link</button>
-      ${C.SHORTCUT_URL ? `<a class="btn btn-gold" style="width:100%;margin-top:8px" href="${C.SHORTCUT_URL}">3 &middot; Add the Welcome shortcut &mdash; paste when asked</a>` : ''}
-
-      <button class="btn btn-ghost" style="width:100%;margin-top:14px" id="cpGoodbye">4 &middot; Copy your goodbye link</button>
-      ${C.SHORTCUT_GOODBYE_URL ? `<a class="btn btn-gold" style="width:100%;margin-top:8px" href="${C.SHORTCUT_GOODBYE_URL}">5 &middot; Add the Goodbye shortcut &mdash; paste when asked</a>` : ''}
-
-      <p class="tiny" style="margin-top:14px"><b>6 &middot; Last step, in the Shortcuts app:</b><br>
-      Automation &rarr; New &rarr; <b>Arrive</b> &rarr; choose GateWay City Church &rarr; Run Immediately &rarr; pick <b>Gateway Welcome</b>.<br>
-      Repeat with <b>Leave</b> &rarr; <b>Gateway Goodbye</b>. Done forever.</p>`;
-    const cp = (id, text, n, label) => {
-      const b = document.getElementById(id);
-      if (b) b.onclick = async () => {
-        try { await navigator.clipboard.writeText(text); b.textContent = 'Copied! Now tap ' + (n + 1) + ' below'; }
-        catch { prompt('Copy your ' + label + ' link:', text); b.textContent = 'Now tap ' + (n + 1) + ' below'; }
-        setTimeout(() => { b.textContent = n + ' \u00b7 Copy your ' + label + ' link'; }, 6000);
-      };
-    };
-    cp('cpWelcome', welcomeLink, 2, 'welcome');
-    cp('cpGoodbye', goodbyeLink, 4, 'goodbye');
-  }
-  renderAutoWelcome();
-  window.addEventListener('hashchange', renderAutoWelcome);
-
-  // ---- Sunday mode (continuous watcher) ----
-  const watcher = Geo.createWatcher(C.CAMPUS, {
-    onEnter: (i) => {
-      const me = D.getMe() || { id: null, name: 'Guest' };
-      D.logGeofence('enter', { member_id: me.id, name: me.name, distance: i.distance, accuracy: i.accuracy });
-      $('watchStatus').textContent = 'Inside the fence (' + i.distance + 'm). Arrival logged.';
-    },
-    onExit: (i) => {
-      const me = D.getMe() || { id: null, name: 'Guest' };
-      D.logGeofence('exit', { member_id: me.id, name: me.name, distance: i.distance, accuracy: i.accuracy });
-      $('watchStatus').textContent = 'Outside the fence (' + i.distance + 'm). Departure logged. Thank you for coming.';
-    },
-    onUpdate: (i) => { $('watchStatus').textContent = (i.inside ? 'Inside' : 'Outside') + ' the fence, ' + i.distance + 'm out (GPS ±' + i.accuracy + 'm).'; },
-    onError: (e) => { $('watchStatus').textContent = 'GPS error: ' + e.message; }
-  });
-  $('btnWatch').onclick = () => {
-    if (watcher.active) { watcher.stop(); $('btnWatch').textContent = 'Start Sunday mode'; $('watchStatus').textContent = 'Sunday mode off.'; }
-    else if (watcher.start()) { $('btnWatch').textContent = 'Stop Sunday mode'; $('watchStatus').textContent = 'Watching the campus fence...'; }
-  };
-
-  // ---- events ----
-  async function renderEvents() {
-    const list = await D.listEvents();
-    const fmt = (iso) => new Date(iso).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) +
-      ' · ' + new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    $('eventList').innerHTML = list.map(e => `
-      <div class="event-item">
-        <div class="event-date">${fmt(e.starts_at)} · ${e.category || 'Event'}</div>
-        <h4>${e.title}</h4>
-        <p>${e.description || ''}${e.location ? ' · ' + e.location : ''}</p>
-      </div>`).join('') || '<p class="muted">Nothing scheduled yet. Check back soon.</p>';
-  }
-
-  // ---- volunteer ----
-  async function renderRoles() {
-    const roles = await D.listVolunteerRoles();
-    $('roleList').innerHTML = roles.map(r => `
-      <div class="role-item">
-        <h4>${r.title}</h4>
-        <p>${r.description || ''}</p>
-        <button class="btn btn-ghost" style="margin-top:10px;padding:9px 16px;font-size:13px" data-role="${r.id}" data-title="${r.title}">Count me in</button>
-      </div>`).join('');
-    $('roleList').querySelectorAll('button[data-role]').forEach(btn => {
-      btn.onclick = async () => {
-        const me = D.getMe() || {};
-        if (!me.name || me.guest) { toast('Fill the connect card first so we know who to call.'); location.hash = 'connect'; show('connect'); return; }
-        try {
-          await D.volunteerSignup({ role_id: btn.dataset.role, role_title: btn.dataset.title,
-            member_id: me.id, name: me.name, contact: me.phone || me.email || null });
-          btn.textContent = 'You are on the list'; btn.disabled = true;
-          toast('Signed up for ' + btn.dataset.title + '.');
-        } catch (e) { toast('Signup failed. Try again.'); console.error(e); }
-      };
-    });
-  }
-
-  // ---- prayer (crisis gate stays hard, July precedent) ----
-  const CRISIS_RE = /suicid|kill (myself|me)|end (my|it all)|hurt (myself|someone)|self.?harm|don'?t want to (live|be here)|overdose|take my (own )?life/i;
-  $('pSend').onclick = async () => {
-    const req = $('pReq').value.trim();
-    if (!req) { toast('Write a few words first.'); return; }
-    if (CRISIS_RE.test(req)) {
-      $('crisisBox').innerHTML = `
-        <div class="crisis-box">
-          <h4>You matter, and help is immediate.</h4>
-          <p>If you are in danger right now, call <a href="tel:911">911</a>.</p>
-          <p>To talk to someone right now, call or text <a href="tel:988">988</a> (Suicide and Crisis Lifeline). Free, confidential, 24/7.</p>
-          <p>A pastor will also see this and reach out, but please do not wait on us.</p>
-        </div>`;
-      window.scrollTo(0, 0);
-      return; // hard stop, do not proceed past the gate
-    }
-    const me = D.getMe() || {};
-    try {
-      await D.submitPrayer({ member_id: me.id, name: me.name || 'Anonymous',
-        contact: $('pContact').value.trim() || me.phone || me.email || null,
-        request: req, is_private: $('pPrivate').checked });
-      $('pReq').value = ''; $('pContact').value = '';
-      toast('Received. Our team is praying with you.');
-      location.hash = '';
-    } catch (e) { toast('Could not send. Try again.'); console.error(e); }
-  };
-
-  // ---- pastor message ----
-  $('mSend').onclick = async () => {
-    const msg = $('mMsg').value.trim(), contact = $('mContact').value.trim();
-    if (!msg) { toast('Write your message first.'); return; }
-    if (!contact) { toast('Leave a phone or email so the pastor can reach you.'); return; }
-    const me = D.getMe() || {};
-    const p = C.PASTORS.find(x => x.id === $('mPastor').value);
-    try {
-      await D.messagePastor({ member_id: me.id, pastor: p.name, name: me.name || 'Guest', contact, message: msg });
-      $('mMsg').value = ''; $('mContact').value = '';
-      toast('Sent to ' + p.name + '.');
-      location.hash = '';
-    } catch (e) { toast('Could not send. Try again.'); console.error(e); }
-  };
-
-  // ---- boot ----
-  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  }
-  route();
-  refreshGeo();
-})();
-</script>
+<footer class="site-foot">
+  <div>GateWay City Church Las Vegas · 3630 N Rancho Dr #112 · (702) 881-5623</div>
+  <div><a href="app/">House</a> · <a href="app/login.html">Staff</a></div>
+</footer>
 </body>
 </html>

@@ -30,7 +30,7 @@ window.GCC = {
 
   // The church's existing Tithe.ly giving page. No API needed, deep link only.
   // TODO: replace with the real giving URL from the church.
-  GIVE_URL: 'https://mygatewaycity.church/lasvegas',
+  GIVE_URL: 'https://give.tithe.ly/?formId=8d5c2d54-cee2-4c1d-9411-857b559a804a',
 
   // Where the projector QR sends phones. Set to the live origin at deploy.
   APP_URL: location.origin.startsWith('http') ? location.origin + location.pathname.replace(/[^/]*$/, 'index.html') : 'index.html',

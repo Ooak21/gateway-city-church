@@ -1,6 +1,6 @@
 // Network-first shell cache. Never caches Supabase (congregant data stays fresh).
-const CACHE = 'gcc-app-v1';
-const SHELL = ['index.html', 'styles.css', 'gcc-config.js', 'gcc-data.js', 'geofence.js', 'assets/gateway-logo.png'];
+const CACHE = 'gcc-app-v2';
+const SHELL = ['index.html', 'styles.css', 'gcc-config.js', 'gcc-data.js', 'geofence.js', 'assets/gateway-logo.png', 'assets/dusk-portrait.jpg'];
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });
