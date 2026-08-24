@@ -3,129 +3,212 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grace · GateWay City Church</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<title>Grace · GateWay Las Vegas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=6">
 </head>
-<body>
-<span class="demo-tag" id="demoTag" style="display:none">Demo Mode</span>
-<div class="grace">
-  <aside class="rail-nav">
-    <div class="brand" style="padding:8px 8px 18px">
-      <img src="../assets/gateway-logo.png" alt="" style="height:28px;filter:brightness(0) invert(1)">
-      <div><b>Grace</b><span>GateWay staff</span></div>
+<body class="ops">
+<header class="ops-top">
+  <div style="display:flex;align-items:center;gap:12px">
+    <img src="../assets/gateway-logo.png" alt="" style="height:32px">
+    <div class="who"><b>GateWay Las Vegas</b><br>People file</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="tiny" id="headCount">Loading</span>
+    <a class="btn btn-ghost" href="sunday.html" target="_blank" rel="noopener">Sunday screen</a>
+    <button class="btn btn-ghost" id="btnOut">Sign out</button>
+  </div>
+</header>
+<div class="ops-body">
+  <aside class="ops-list">
+    <div class="ops-tools">
+      <input type="search" id="q" placeholder="Search name, phone, email">
+      <div class="ops-filters">
+        <button class="on" data-f="all">All</button>
+        <button data-f="here">Here today</button>
+        <button data-f="prayer">Prayer</button>
+        <button data-f="inbox">Inbox</button>
+        <button data-f="serve">Serve</button>
+      </div>
     </div>
-    <a class="navbtn on" href="staff.html">The house</a>
-    <a class="navbtn" href="sunday.html" target="_blank" rel="noopener">Sunday screen</a>
-    <a class="navbtn" href="index.html">Open House</a>
-    <a class="navbtn" href="../index.html">Public site</a>
-    <div class="rail-foot">Same records the phone writes. Prayer, inbox, arrivals, volunteer signups.</div>
+    <div class="ops-people" id="people"></div>
   </aside>
-  <section class="grace-main">
-    <header class="grace-head">
-      <div>
-        <div class="sec-kicker">Las Vegas · live</div>
-        <h1>The house</h1>
-      </div>
-      <button class="btn btn-ghost" id="btnOut">Sign out</button>
-    </header>
-    <div class="stats">
-      <div class="stat"><b id="stToday">0</b><span>Checked in</span></div>
-      <div class="stat"><b id="stInside">0</b><span>Inside now</span></div>
-      <div class="stat"><b id="stPrayer">0</b><span>Open prayer</span></div>
-      <div class="stat"><b id="stMsg">0</b><span>Pastor messages</span></div>
-    </div>
-    <div class="g-grid">
-      <div>
-        <div class="panel">
-          <h3>Arrivals and departures</h3>
-          <p class="sub">Geofence, QR, shortcut, and I'm here. Newest first.</p>
-          <div id="feedGeo"></div>
-        </div>
-        <div class="panel" style="margin-top:14px">
-          <h3>Volunteer signups</h3>
-          <p class="sub">Call them this week while it is warm.</p>
-          <div id="feedVol"></div>
-        </div>
-      </div>
-      <div>
-        <div class="panel">
-          <h3>Prayer requests</h3>
-          <p class="sub">Private requests are marked. Handle with care.</p>
-          <div id="feedPrayer"></div>
-        </div>
-        <div class="panel" style="margin-top:14px">
-          <h3>Pastor inbox</h3>
-          <p class="sub">Direct messages from congregants.</p>
-          <div id="feedMsg"></div>
-        </div>
-      </div>
-    </div>
+  <section class="ops-file" id="file">
+    <p class="ops-empty">Select someone on the left.</p>
   </section>
 </div>
-<script src="gcc-config.js?v=5"></script>
-<script src="gcc-data.js?v=5"></script>
+
+<script src="gcc-config.js?v=6"></script>
+<script src="gcc-data.js?v=6"></script>
 <script type="module">
-  import { gccAuthGuard, gccSignOut, gccSupabase } from './auth.js';
+  import { gccAuthGuard, gccSignOut } from './auth.js';
   const C = window.GCC, D = window.GCCData;
   const $ = (id) => document.getElementById(id);
-  const session = await gccAuthGuard();
-  if (session) {
-    if (C.DEMO_MODE) $('demoTag').style.display = 'block';
-    $('btnOut').onclick = gccSignOut;
+  const preview = location.hostname === '127.0.0.1' && new URLSearchParams(location.search).get('preview') === '1';
 
-    const ago = (iso) => {
-      const s = Math.floor((Date.now() - new Date(iso)) / 1000);
-      if (s < 60) return s + 's ago';
-      if (s < 3600) return Math.floor(s / 60) + 'm ago';
-      if (s < 86400) return Math.floor(s / 3600) + 'h ago';
-      return new Date(iso).toLocaleDateString();
+  const session = preview ? { preview: true } : await gccAuthGuard();
+  if (!session) throw new Error('auth');
+
+  $('btnOut').onclick = preview ? () => location.href = '../index.html' : gccSignOut;
+
+  let filter = 'all', query = '', selected = null, people = [];
+
+  const today = () => new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+  const ago = (iso) => {
+    if (!iso) return '';
+    const s = Math.floor((Date.now() - new Date(iso)) / 1000);
+    if (s < 60) return 'just now';
+    if (s < 3600) return Math.floor(s / 60) + 'm ago';
+    if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+    return new Date(iso).toLocaleDateString();
+  };
+  const esc = (x) => String(x || '').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+  const ini = (name) => (name || '?').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+
+  function seed() {
+    const t = new Date().toISOString();
+    return {
+      members: [
+        { id: '1', first_name: 'Maria', last_name: 'Solis', phone: '(702) 555-0144', email: 'maria.solis@mail.com', source: 'qr', created_at: t },
+        { id: '2', first_name: 'James', last_name: 'Okonkwo', phone: '(702) 555-0190', email: 'james@okonkwo.mail', source: 'app', created_at: t },
+        { id: '3', first_name: 'Elena', last_name: 'Ruiz', phone: '(725) 555-0112', email: null, source: 'qr', created_at: t },
+        { id: '4', first_name: 'Chris', last_name: 'Nguyen', phone: '(702) 555-0177', email: 'chris.n@nv.dev', source: 'app', created_at: t }
+      ],
+      attendance: [
+        { member_id: '1', display_name: 'Maria Solis', service_date: today(), method: 'shortcut', created_at: t },
+        { member_id: '2', display_name: 'James Okonkwo', service_date: today(), method: 'qr', created_at: t },
+        { member_id: '3', display_name: 'Elena Ruiz', service_date: today(), method: 'geofence', created_at: t }
+      ],
+      geofence: [
+        { member_id: '1', display_name: 'Maria Solis', event: 'enter', created_at: t },
+        { member_id: '2', display_name: 'James Okonkwo', event: 'enter', created_at: t }
+      ],
+      prayers: [
+        { member_id: '1', display_name: 'Maria Solis', request: 'Please pray for my brother in the hospital. Surgery this week.', is_private: true, status: 'new', contact: 'text only', created_at: t }
+      ],
+      messages: [
+        { member_id: '2', display_name: 'James Okonkwo', pastor: 'Pastor Danny Hand', message: 'Can we talk this week about baptism for my son?', contact: 'james@okonkwo.mail', status: 'new', created_at: t }
+      ],
+      volunteers: [
+        { member_id: '3', display_name: 'Elena Ruiz', role_title: 'Welcome team', contact: '(725) 555-0112', created_at: t }
+      ]
     };
-    const esc = (x) => String(x || '').replace(/[<>&"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
-
-    async function refresh() {
-      try {
-        const auth = (!C.DEMO_MODE && session.access_token)
-          ? { Authorization: 'Bearer ' + session.access_token } : {};
-        const f = await D.staffFeeds(auth);
-        const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
-
-        $('stToday').textContent = f.attendance.filter(a => a.service_date === today).length;
-        const latest = {};
-        f.geofence.slice().reverse().forEach(g => {
-          if ((g.created_at || '').slice(0, 10) === today) latest[g.display_name || g.member_id] = g.event;
-        });
-        $('stInside').textContent = Object.values(latest).filter(e => e === 'enter').length;
-        $('stPrayer').textContent = f.prayers.filter(p => (p.status || 'new') === 'new').length;
-        $('stMsg').textContent = f.messages.filter(m => (m.status || 'new') === 'new').length;
-
-        $('feedGeo').innerHTML = f.geofence.slice(0, 25).map(g => `
-          <div class="feed-item">
-            <div><span class="who">${esc(g.display_name) || 'Guest'}</span>
-            <span class="what">${g.distance_m != null ? Math.round(g.distance_m) + 'm out' : ''}</span></div>
-            <div><span class="pill ${g.event}">${g.event}</span> <time>${ago(g.created_at)}</time></div>
-          </div>`).join('') || '<p class="tiny">Quiet so far.</p>';
-
-        $('feedVol').innerHTML = f.volunteers.slice(0, 15).map(v => `
-          <div class="req"><span class="who">${esc(v.display_name)}</span>
-          <p>${esc(v.role_title)}${v.contact ? ' · ' + esc(v.contact) : ''}</p>
-          <div class="meta">${ago(v.created_at)}</div></div>`).join('') || '<p class="tiny">No signups yet.</p>';
-
-        $('feedPrayer').innerHTML = f.prayers.slice(0, 15).map(p => `
-          <div class="req"><span class="who">${esc(p.display_name)}</span>
-          ${p.is_private ? '<span class="pill" style="margin-left:6px">private</span>' : ''}
-          <p>${esc(p.request)}</p>
-          <div class="meta">${p.contact ? esc(p.contact) + ' · ' : ''}${ago(p.created_at)}</div></div>`).join('') || '<p class="tiny">No open requests.</p>';
-
-        $('feedMsg').innerHTML = f.messages.slice(0, 15).map(m => `
-          <div class="req"><span class="who">${esc(m.display_name)} → ${esc(m.pastor)}</span>
-          <p>${esc(m.message)}</p>
-          <div class="meta">${esc(m.contact)} · ${ago(m.created_at)}</div></div>`).join('') || '<p class="tiny">Inbox clear.</p>';
-      } catch (e) { console.error('staff refresh', e); }
-    }
-    refresh();
-    setInterval(refresh, 10000);
   }
+
+  function buildPeople(f) {
+    const byId = {};
+    const put = (id, name, extra = {}) => {
+      const key = id || ('n:' + name);
+      if (!byId[key]) byId[key] = { id, name, here: false, prayer: [], inbox: [], serve: [], visits: [], last: extra.created_at };
+      Object.assign(byId[key], extra);
+      return byId[key];
+    };
+    (f.members || []).forEach(m => put(m.id, (m.first_name + ' ' + (m.last_name || '')).trim(), {
+      phone: m.phone, email: m.email, source: m.source, created_at: m.created_at, last: m.created_at
+    }));
+    (f.attendance || []).forEach(a => {
+      const p = put(a.member_id, a.display_name);
+      p.visits.push(a);
+      if (a.service_date === today()) p.here = true;
+      p.last = a.created_at || p.last;
+    });
+    (f.geofence || []).forEach(g => {
+      const p = put(g.member_id, g.display_name);
+      if (g.event === 'enter' && (g.created_at || '').slice(0, 10) === today()) p.here = true;
+      p.last = g.created_at || p.last;
+    });
+    (f.prayers || []).forEach(r => { const p = put(r.member_id, r.display_name); p.prayer.push(r); p.last = r.created_at || p.last; });
+    (f.messages || []).forEach(m => { const p = put(m.member_id, m.display_name); p.inbox.push(m); p.last = m.created_at || p.last; });
+    (f.volunteers || []).forEach(v => { const p = put(v.member_id, v.display_name); p.serve.push(v); });
+    return Object.values(byId).sort((a, b) => (b.last || '').localeCompare(a.last || ''));
+  }
+
+  function visible() {
+    const q = query.trim().toLowerCase();
+    return people.filter(p => {
+      if (filter === 'here' && !p.here) return false;
+      if (filter === 'prayer' && !p.prayer.length) return false;
+      if (filter === 'inbox' && !p.inbox.length) return false;
+      if (filter === 'serve' && !p.serve.length) return false;
+      if (!q) return true;
+      return (p.name || '').toLowerCase().includes(q) || (p.phone || '').includes(q) || (p.email || '').toLowerCase().includes(q);
+    });
+  }
+
+  function renderList() {
+    const list = visible();
+    $('people').innerHTML = list.map(p => `
+      <button class="person ${selected && selected.name === p.name ? 'on' : ''}" data-name="${esc(p.name)}">
+        <span class="initials">${esc(ini(p.name))}</span>
+        <span>
+          <span class="nm">${esc(p.name)}</span>
+          <span class="meta">${p.here ? '<span class="mark-here">Here</span>' : 'Out'} ${p.prayer.length ? '· <span class="mark-pray">Prayer</span>' : ''} ${p.inbox.length ? '· Inbox' : ''}</span>
+        </span>
+        <span class="when">${ago(p.last)}</span>
+      </button>`).join('') || '<p class="ops-empty">No one matches.</p>';
+    $('people').querySelectorAll('.person').forEach(btn => {
+      btn.onclick = () => { selected = people.find(p => p.name === btn.dataset.name); renderList(); renderFile(); };
+    });
+    const here = people.filter(p => p.here).length;
+    $('headCount').textContent = here + ' in the house today · ' + people.length + ' on file';
+  }
+
+  function renderFile() {
+    const p = selected;
+    if (!p) { $('file').innerHTML = '<p class="ops-empty">Select someone on the left.</p>'; return; }
+    $('file').innerHTML = `
+      <p class="tiny">${p.here ? 'In the house right now' : 'Not on campus'}</p>
+      <h1>${esc(p.name)}</h1>
+      <dl class="facts">
+        <div><dt>Phone</dt><dd>${esc(p.phone) || '—'}</dd></div>
+        <div><dt>Email</dt><dd>${esc(p.email) || '—'}</dd></div>
+        <div><dt>Source</dt><dd>${esc(p.source) || 'app'}</dd></div>
+        <div><dt>Last activity</dt><dd>${ago(p.last)}</dd></div>
+      </dl>
+      <div class="ops-block">
+        <h3>Prayer</h3>
+        ${p.prayer.map(r => `<p>${esc(r.request)}${r.is_private ? ' <span class="mark-pray">private</span>' : ''}</p>`).join('') || '<p class="tiny">None on file.</p>'}
+      </div>
+      <div class="ops-block">
+        <h3>Pastor inbox</h3>
+        ${p.inbox.map(m => `<p><b>${esc(m.pastor)}</b> · ${esc(m.message)}</p>`).join('') || '<p class="tiny">No messages.</p>'}
+      </div>
+      <div class="ops-block">
+        <h3>Serving</h3>
+        ${p.serve.map(v => `<p>${esc(v.role_title)}</p>`).join('') || '<p class="tiny">Not signed up.</p>'}
+      </div>
+      <div class="ops-block">
+        <h3>Visits</h3>
+        ${p.visits.slice(0, 8).map(v => `<p>${esc(v.service_date)} · ${esc(v.method)}</p>`).join('') || '<p class="tiny">No check-ins yet.</p>'}
+      </div>`;
+  }
+
+  async function load() {
+    let f;
+    if (preview) f = seed();
+    else {
+      const auth = (!C.DEMO_MODE && session.access_token) ? { Authorization: 'Bearer ' + session.access_token } : {};
+      f = await D.staffFeeds(auth);
+    }
+    people = buildPeople(f);
+    if (!selected && people[0]) selected = people[0];
+    renderList();
+    renderFile();
+  }
+
+  $('q').oninput = (e) => { query = e.target.value; renderList(); };
+  document.querySelectorAll('.ops-filters button').forEach(b => {
+    b.onclick = () => {
+      filter = b.dataset.f;
+      document.querySelectorAll('.ops-filters button').forEach(x => x.classList.toggle('on', x === b));
+      renderList();
+    };
+  });
+
+  await load();
+  if (!preview) setInterval(load, 10000);
 </script>
 </body>
 </html>

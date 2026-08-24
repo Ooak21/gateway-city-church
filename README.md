@@ -10,7 +10,7 @@ Live: https://ooak21.github.io/gateway-city-church/
 | `/grow-tracks.html` | Discipleship path |
 | `/app/` | Congregant House app (check-in, prayer, serve, pastors) |
 | `/app/sunday.html` | Sanctuary projector QR |
-| `/app/staff.html` | Grace, the staff board |
+| `/app/staff.html` | Grace people file (staff). Light ops UI against IBS church_* tables. Miguel's dark Vercel Grace is a different database. |
 | `/app/login.html` | Staff sign-in |
 
 House and Grace write the same IBS `church_*` tables. Miguel's Vercel Grace still reads his own Supabase until that gets repointed.

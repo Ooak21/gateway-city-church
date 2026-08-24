@@ -167,6 +167,7 @@
       if (C.DEMO_MODE) {
         const db = load();
         return {
+          members: db.members.slice().reverse(),
           attendance: db.attendance.slice().reverse(),
           geofence: db.geofence_events.slice().reverse(),
           prayers: db.prayer_requests.slice().reverse(),
@@ -175,12 +176,12 @@
         };
       }
       const h = { headers: authHeaders };
-      const q = (t) => rest(t + '?campus_slug=eq.' + C.CAMPUS.slug + '&order=created_at.desc&limit=100&select=*', h);
-      const [attendance, geofence, prayers, messages, volunteers] = await Promise.all([
-        q('church_attendance'), q('church_geofence_events'), q('church_prayer_requests'),
-        q('church_pastor_messages'), q('church_volunteer_signups')
+      const q = (t) => rest(t + '?campus_slug=eq.' + C.CAMPUS.slug + '&order=created_at.desc&limit=200&select=*', h);
+      const [members, attendance, geofence, prayers, messages, volunteers] = await Promise.all([
+        q('church_members'), q('church_attendance'), q('church_geofence_events'),
+        q('church_prayer_requests'), q('church_pastor_messages'), q('church_volunteer_signups')
       ]);
-      return { attendance, geofence, prayers, messages, volunteers };
+      return { members, attendance, geofence, prayers, messages, volunteers };
     }
   };
 
