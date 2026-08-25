@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/gateway.css">
+<link rel="stylesheet" href="css/gateway.css?v=14">
 </head>
 <body class="site-body">
 <nav class="site-nav">
@@ -21,6 +21,7 @@
     <a href="#pastors">Pastors</a>
     <a href="#ministries">Ministries</a>
     <a href="grow-tracks.html">Grow Tracks</a>
+    <a href="#watch">Watch</a>
     <a href="#give">Give</a>
     <a class="btn btn-copper" style="padding:8px 14px" href="app/">I'm here</a>
   </div>
@@ -124,11 +125,27 @@
 <section class="wrap-site" id="watch">
   <div class="sec-kicker">Watch</div>
   <h2 class="sec-h">Can't make it in person?</h2>
-  <p class="sec-lede">Join live or catch recent messages anytime.</p>
-  <div class="row" style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
-    <a class="btn btn-ink" href="https://www.youtube.com/@GatewayCityChurchSJ" target="_blank" rel="noopener">Watch live</a>
-    <a class="btn btn-ghost" href="https://www.youtube.com/@GatewayCityChurchSJ/videos" target="_blank" rel="noopener">Recent sermons</a>
+  <p class="sec-lede">Las Vegas campus stream. Live on this page Sundays. Past services below.</p>
+
+  <div class="watch-live" id="watchLive">
+    <iframe
+      id="watchLiveFrame"
+      title="GateWay Las Vegas live"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
   </div>
+  <p class="watch-live-note" id="watchLiveNote" hidden>The stream appears here when service starts. Sunday 10:00 AM English · 1:00 PM Español.</p>
+
+  <div class="watch-next" id="watchNext">
+    <b>Next live is Sunday</b>
+    <p class="sec-lede" style="margin:0">10:00 AM English · 1:00 PM Español, Pacific. On Sunday the stream plays on this page.</p>
+    <a class="btn btn-ink" style="margin-top:14px" href="https://www.youtube.com/@gatewaycitychurchlasvegas/live" target="_blank" rel="noopener">Open the Vegas channel</a>
+  </div>
+
+  <h3 style="margin-top:36px;font-size:22px">Past services</h3>
+  <div class="watch-reel" id="watchReel"></div>
+  <a class="btn btn-ghost" style="margin-top:16px" href="https://www.youtube.com/@gatewaycitychurchlasvegas/streams" target="_blank" rel="noopener">All Vegas streams</a>
 </section>
 
 <section class="wrap-site" id="give">
@@ -154,5 +171,6 @@
   <div>GateWay City Church Las Vegas · 3630 N Rancho Dr #112 · (702) 881-5623</div>
   <div><a href="app/">House</a> · <a href="app/login.html">Staff</a></div>
 </footer>
+<script src="js/watch.js"></script>
 </body>
 </html>
