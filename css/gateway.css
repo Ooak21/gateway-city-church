@@ -436,7 +436,7 @@ p{margin:0}
 .sec-h{font-size:clamp(32px,5vw,52px);margin:8px 0 12px}
 .sec-lede{color:var(--mute);font-size:17px;max-width:54ch;line-height:1.5}
 .watch-live{
-  display:none;margin-top:22px;background:#111;border-radius:20px;overflow:hidden;
+  display:none;margin-top:0;background:#111;border-radius:20px;overflow:hidden;
   aspect-ratio:16/9;position:relative;
 }
 .watch-live.on{display:block}
@@ -457,6 +457,25 @@ p{margin:0}
 .watch-card .m{font-size:12px;color:var(--mute);margin-top:3px}
 @media (max-width:900px){
   .watch-reel{grid-template-columns:repeat(2,1fr)}
+}
+.watch-stage{display:grid;grid-template-columns:1.35fr .85fr;gap:16px;margin-top:22px;align-items:stretch}
+.hello-box{
+  background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;
+  display:flex;flex-direction:column;min-height:320px;
+}
+.hello-box h3{font-size:18px;margin-bottom:4px}
+.hello-log{flex:1;overflow:auto;margin:12px 0;display:flex;flex-direction:column;gap:8px;min-height:140px}
+.hello-row{max-width:90%;padding:8px 12px;border-radius:12px;font-size:14px;line-height:1.4}
+.hello-row .who{display:block;font-size:11px;font-weight:700;margin-bottom:2px;color:var(--mute)}
+.hello-row.me{align-self:flex-end;background:#EEF3F7}
+.hello-row.house{align-self:flex-start;background:#F4F6F8;border:1px solid var(--line)}
+.hello-form{display:flex;flex-direction:column;gap:8px}
+.hello-form input,.hello-form textarea{
+  width:100%;border:1px solid var(--line-strong);border-radius:10px;padding:10px 12px;font-size:14px;
+}
+.hello-form textarea{min-height:64px;resize:vertical}
+@media (max-width:800px){
+  .watch-stage{grid-template-columns:1fr}
 }
 .times{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
 .time-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px}

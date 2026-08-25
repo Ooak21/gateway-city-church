@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/gateway.css?v=14">
+<link rel="stylesheet" href="css/gateway.css?v=15">
 </head>
 <body class="site-body">
 <nav class="site-nav">
@@ -127,20 +127,34 @@
   <h2 class="sec-h">Can't make it in person?</h2>
   <p class="sec-lede">Las Vegas campus stream. Live on this page Sundays. Past services below.</p>
 
-  <div class="watch-live" id="watchLive">
-    <iframe
-      id="watchLiveFrame"
-      title="GateWay Las Vegas live"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
-    ></iframe>
-  </div>
-  <p class="watch-live-note" id="watchLiveNote" hidden>The stream appears here when service starts. Sunday 10:00 AM English · 1:00 PM Español.</p>
-
-  <div class="watch-next" id="watchNext">
-    <b>Next live is Sunday</b>
-    <p class="sec-lede" style="margin:0">10:00 AM English · 1:00 PM Español, Pacific. On Sunday the stream plays on this page.</p>
-    <a class="btn btn-ink" style="margin-top:14px" href="https://www.youtube.com/@gatewaycitychurchlasvegas/live" target="_blank" rel="noopener">Open the Vegas channel</a>
+  <div class="watch-stage">
+    <div>
+      <div class="watch-live" id="watchLive">
+        <iframe
+          id="watchLiveFrame"
+          title="GateWay Las Vegas live"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <p class="watch-live-note" id="watchLiveNote" hidden>The stream appears here when service starts. Sunday 10:00 AM English · 1:00 PM Español.</p>
+      <div class="watch-next" id="watchNext">
+        <b>Next live is Sunday</b>
+        <p class="sec-lede" style="margin:0">10:00 AM English · 1:00 PM Español, Pacific. On Sunday the stream plays on this page.</p>
+        <a class="btn btn-ink" style="margin-top:14px" href="https://www.youtube.com/@gatewaycitychurchlasvegas/live" target="_blank" rel="noopener">Open the Vegas channel</a>
+      </div>
+    </div>
+    <aside class="hello-box">
+      <h3>Say hello</h3>
+      <p class="tiny">Hosts on the Watch desk see this and can write back.</p>
+      <div class="hello-log" id="helloLog"></div>
+      <div class="hello-form">
+        <input id="helloName" placeholder="Your name" maxlength="40" autocomplete="given-name">
+        <textarea id="helloBody" placeholder="Hello from..." maxlength="280"></textarea>
+        <button class="btn btn-ink" id="helloSend">Send hello</button>
+        <p class="tiny" id="helloErr" style="color:var(--pray)"></p>
+      </div>
+    </aside>
   </div>
 
   <h3 style="margin-top:36px;font-size:22px">Past services</h3>
@@ -172,5 +186,6 @@
   <div><a href="app/">House</a> · <a href="app/login.html">Staff</a></div>
 </footer>
 <script src="js/watch.js"></script>
+<script src="js/hello.js"></script>
 </body>
 </html>
